@@ -275,7 +275,8 @@
     <div class="section-head"><h2 id="screenshots-title"><span data-en="Development screenshots">Скриншоты из разработки</span></h2></div>
     <div class="gallery-controls">
       <button id="gallery-prev" type="button" aria-label="Листать влево" data-en-label="Scroll left">←</button>
-      <span id="gallery-position" aria-live="polite"></span>
+      <span id="gallery-position"></span>
+      <button id="gallery-autoplay" type="button"></button>
       <button id="gallery-next" type="button" aria-label="Листать вправо" data-en-label="Scroll right">→</button>
     </div>
     <div class="shots" tabindex="0" role="group" aria-label="Галерея" data-en-label="Gallery">
@@ -518,29 +519,86 @@ window.addEventListener('hashchange', () => {
 
 const gallery = document.querySelector('.shots');
 const slides = [...gallery.children];
+for (let index = slides.length - 1; index > 0; index -= 1) {
+  const other = Math.floor(Math.random() * (index + 1));
+  [slides[index], slides[other]] = [slides[other], slides[index]];
+}
+gallery.replaceChildren(...slides);
+
+function copySlide(slide) {
+  const copy = slide.cloneNode(true);
+  copy.setAttribute('aria-hidden', 'true');
+  for (const link of copy.querySelectorAll('a')) {
+    link.tabIndex = -1;
+  }
+  copy.querySelector('.shot').dataset.slideIndex = slides.indexOf(slide);
+  return copy;
+}
+
+const before = slides.slice(-6).map(copySlide);
+const after = slides.slice(0, 6).map(copySlide);
+gallery.prepend(...before);
+gallery.append(...after);
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const autoplay = byId('gallery-autoplay');
+let playing = !reducedMotion.matches;
+let lastMove = Date.now();
 let drag;
 let suppressShotClick = false;
 
+function galleryMetrics() {
+  const start = slides[0].offsetLeft - before[0].offsetLeft;
+  const span = after[0].offsetLeft - slides[0].offsetLeft;
+  return {start, span, step: span / slides.length};
+}
+
 function renderGalleryPosition() {
-  const max = gallery.scrollWidth - gallery.clientWidth;
-  const current = max > 0 ? Math.round(gallery.scrollLeft / max * (slides.length - 1)) + 1 : 1;
+  const {start, span, step} = galleryMetrics();
+  if (!step) {
+    return;
+  }
+  const x = gallery.scrollLeft;
+  if (x < start - 2 * step || x >= start + span) {
+    const shift = x < start ? span : -span;
+    gallery.scrollLeft = x + shift;
+    if (drag) {
+      drag.left += shift;
+    }
+  }
+  const index = Math.floor((gallery.scrollLeft - start + 1) / step);
+  const current = (index + slides.length) % slides.length + 1;
   byId('gallery-position').textContent = `${current} / ${slides.length}`;
 }
 
 function moveGallery(direction) {
-  const max = gallery.scrollWidth - gallery.clientWidth;
-  const x = gallery.scrollLeft;
-  const step = slides[0].getBoundingClientRect().width + 12;
-  const wrapLeft = direction < 0 && x <= 1;
-  const wrapRight = direction > 0 && x >= max - 1;
-  const left = wrapLeft ? max : wrapRight ? 0 : x + direction * step;
-  gallery.scrollTo({left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+  lastMove = Date.now();
+  const {step} = galleryMetrics();
+  gallery.scrollBy({left: direction * step, behavior: reducedMotion.matches ? 'instant' : 'smooth'});
+}
+
+function updateAutoplayLabel() {
+  autoplay.textContent = playing ? localize('Пауза', 'Pause') : localize('Продолжить', 'Resume');
 }
 
 byId('gallery-prev').addEventListener('click', () => moveGallery(-1));
 byId('gallery-next').addEventListener('click', () => moveGallery(1));
+autoplay.addEventListener('click', () => {
+  playing = !playing;
+  lastMove = Date.now();
+  updateAutoplayLabel();
+});
+byId('language').addEventListener('click', updateAutoplayLabel);
+window.setInterval(() => {
+  if (playing && !document.hidden && !gallery.closest('[hidden]') && !gallery.matches(':hover, :focus-within')
+      && !byId('lightbox').open && !drag && Date.now() - lastMove >= 15000) {
+    moveGallery(1);
+  }
+}, 1000);
 gallery.addEventListener('scroll', renderGalleryPosition, {passive: true});
+gallery.addEventListener('wheel', () => { lastMove = Date.now(); }, {passive: true});
 window.addEventListener('resize', renderGalleryPosition);
+gallery.scrollLeft = galleryMetrics().start;
+updateAutoplayLabel();
 gallery.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
     event.preventDefault();
@@ -548,6 +606,7 @@ gallery.addEventListener('keydown', (event) => {
   }
 });
 gallery.addEventListener('pointerdown', (event) => {
+  lastMove = Date.now();
   suppressShotClick = false;
   if (event.pointerType === 'mouse' && event.button === 0) {
     drag = {id: event.pointerId, x: event.clientX, left: gallery.scrollLeft};
@@ -585,7 +644,7 @@ gallery.addEventListener('click', (event) => {
 }, true);
 renderGalleryPosition();
 
-const shots = [...document.querySelectorAll('.shot')];
+const shots = slides.map((slide) => slide.querySelector('.shot'));
 const lightbox = byId('lightbox');
 let currentShot = 0;
 let returnFocus;
@@ -598,7 +657,8 @@ function showShot(index) {
   image.alt = caption;
   byId('shot-caption').textContent = caption;
 }
-shots.forEach((shot, index) => shot.addEventListener('click', (event) => {
+gallery.querySelectorAll('.shot').forEach((shot) => shot.addEventListener('click', (event) => {
+  const index = shot.dataset.slideIndex === undefined ? shots.indexOf(shot) : Number(shot.dataset.slideIndex);
   if (suppressShotClick) {
     event.preventDefault();
     return;
