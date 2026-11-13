@@ -52,12 +52,15 @@
   .featured { display: grid; gap: 14px; grid-template-columns: minmax(0, 1.16fr) minmax(0, 1fr); }
   .featured-main, .featured-side { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
   .featured-main > .game { background: var(--ice); }
-  .catalog { flex: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 16px 18px; border: 1px solid var(--line); }
-  .catalog .platforms a { min-height: 42px; }
+  .catalog { flex: 1; display: grid; grid-template-rows: auto 1fr; gap: 10px;
+    padding: 16px 18px; border: 1px solid var(--line); background: var(--ice); }
+  .catalog .platforms { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .catalog .platforms a { min-height: 48px; justify-content: center; background: white; }
+  .catalog .platforms a:hover { background: var(--soft); }
   .social-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
   .media .social-heading h2 { margin-bottom: 0; }
   .social-heading img { width: 43px; height: auto; }
+  .media .social-heading, .media .video-heading { min-height: 53px; display: flex; align-items: center; }
   .game { display: grid; position: relative;  background: var(--soft); border: 1px solid var(--line); min-width: 0; }
   .game:hover { border-color: #727d95; }
   .game:hover h3, .video:hover strong { text-decoration: underline; text-underline-offset: 4px; }
@@ -70,16 +73,20 @@
   .game p { color: var(--muted); font-size: 14px; margin: 5px 0 0; }
   .open { position: absolute; bottom: 12px; right: 10px; color: var(--muted); }
   .featured-main > .game .open { top: auto; bottom: 13px; right: 15px; }
-  .media { display: grid; grid-template-columns: 1fr 1.42fr; gap: 28px; }
+  .media { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 28px; }
+  .media > div { display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+  .media h2 { align-self: center; }
+  .media .video-heading { font-size: clamp(19px, 2.5vw, 30px); }
+  .media .video { align-self: start; }
   .media h2 { margin-bottom: 16px; }
-  .social { display: grid; gap: 10px; }
-  .social a { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 13px; padding: 14px; border: 1px solid var(--line); }
+  .social { display: grid; grid-template-rows: repeat(2, minmax(90px, 1fr)); gap: 12px; }
+  .social a { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--line); }
   .social a:hover { background: var(--soft); }
   .social strong, .video strong { display: block; }
   .social small { display: block; color: var(--muted); }
   .video { display: block; border: 1px solid var(--line); background: var(--ink); color: white; }
   .poster { display: grid; position: relative; }
-  .poster img { width: 100%; aspect-ratio: 16/8; object-fit: cover; }
+  .poster img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
   .play { position: absolute; place-self: center; display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; background: white; color: var(--ink); }
   .video strong { padding: 12px 16px; }
   @media(max-width: 850px) {
@@ -177,7 +184,7 @@
       </div>
     </div>
     <div>
-      <h2>Последний видос</h2>
+      <h2 class="video-heading">Последний видос</h2>
       <a class="video" href="https://www.youtube.com/watch?v=-5Y39o6itlE">
         <span class="poster">
           <img src="https://i.ytimg.com/vi/-5Y39o6itlE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
