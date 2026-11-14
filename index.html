@@ -211,6 +211,33 @@
   .project-art .banner-fx img:not(.glitch-band):not(.signal-icon) { height: auto; }
   .project-art .banner-fx .changing-key { width: clamp(19px, 3vw, 38px); }
   .project-art .banner-fx .signal-icon { width: 84%; height: 84%; }
+
+  body { background: #fff url("media/mascots.webp") center top / min(960px, 135vw) auto repeat; }
+  #screenshots { width: 100vw; margin-inline: calc(50% - 50vw); padding-bottom: 0; border: 0; }
+  #screenshots > .section-head, #screenshots > .gallery-controls {
+    width: min(1180px, calc(100% - 32px)); margin-inline: auto;
+  }
+  #screenshots .shots { gap: 2px; padding: 0; background: #171924; scrollbar-width: none; }
+  #screenshots .slide { flex-basis: min(74vw, 1120px); position: relative; display: block; }
+  #screenshots .shot { display: block; position: relative; overflow: hidden; border: 0; color: #fff; }
+  #screenshots .shot > img, #screenshots .shot > video {
+    display: block; width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #191d28;
+  }
+  #screenshots .shot > span {
+    position: absolute; inset: auto 0 0; padding: 44px 110px 16px 18px; font-weight: 700;
+    background: linear-gradient(transparent, #121520e8);
+  }
+  #screenshots .shot-source {
+    position: absolute; right: 10px; bottom: 9px; color: #fff; border-color: #ffffff60;
+    background: #1b2030db; max-width: 45%; text-align: center;
+  }
+  #screenshots .shot:focus-visible { outline-offset: -3px; }
+  #shot-video { display: block; width: 100%; max-height: 72vh; }
+  @media (max-width: 640px) {
+    #screenshots .slide { flex-basis: 92vw; }
+    #screenshots .shot > span { font-size: 12px; padding: 35px 110px 12px 10px; }
+    #screenshots .shot-source { font-size: 11px; }
+  }
 </style>
 </head>
 <body>
@@ -327,7 +354,7 @@
     </div>
   </section>
   <section id="screenshots" aria-labelledby="screenshots-title">
-    <div class="section-head"><h2 id="screenshots-title"><span data-en="Development screenshots">Скриншоты из разработки</span></h2></div>
+    <div class="section-head"><h2 id="screenshots-title"><span data-en="Development gallery">Галерея разработки</span></h2></div>
     <div class="gallery-controls">
       <button id="gallery-prev" type="button" aria-label="Листать влево" data-en-label="Scroll left">←</button>
       <span id="gallery-position"></span>
@@ -335,6 +362,12 @@
       <button id="gallery-next" type="button" aria-label="Листать вправо" data-en-label="Scroll right">→</button>
     </div>
     <div class="shots" tabindex="0" role="group" aria-label="Галерея" data-en-label="Gallery">
+      <article class="slide"><a class="shot" href="media/devlog-8.mp4" data-video="true" data-caption="Size Doesn’t Matter" data-caption-en="Size Doesn’t Matter"><video muted loop playsinline preload="none" poster="media/devlog-8.jpg" data-src="media/devlog-8.mp4"></video><span data-en="Size Doesn’t Matter ▶">Size Doesn’t Matter ▶</span></a><a class="shot-source" href="https://myindie.net/games/game/size-doesnt-matter_rzm"><span data-en="Game page">К игре</span> ↗</a></article>
+      <article class="slide"><a class="shot" href="media/devlog-12.mp4" data-video="true" data-caption="Девлог · 12" data-caption-en="Devlog · 12"><video muted loop playsinline preload="none" poster="media/devlog-12.jpg" data-src="media/devlog-12.mp4"></video><span data-en="Devlog · 12 ▶">Девлог · 12 ▶</span></a><a class="shot-source" href="https://t.me/graymansiongamedevru"><span data-en="Telegram channel">В Telegram-канал</span> ↗</a></article>
+      <article class="slide"><a class="shot" href="media/devlog-24.mp4" data-video="true" data-caption="Девлог · 24" data-caption-en="Devlog · 24"><video muted loop playsinline preload="none" poster="media/devlog-24.jpg" data-src="media/devlog-24.mp4"></video><span data-en="Devlog · 24 ▶">Девлог · 24 ▶</span></a><a class="shot-source" href="https://t.me/graymansiongamedevru"><span data-en="Telegram channel">В Telegram-канал</span> ↗</a></article>
+      <article class="slide"><a class="shot" href="media/devlog-33.mp4" data-video="true" data-caption="Ludum Dare" data-caption-en="Ludum Dare"><video muted loop playsinline preload="none" poster="media/devlog-33.jpg" data-src="media/devlog-33.mp4"></video><span data-en="Ludum Dare ▶">Ludum Dare ▶</span></a><a class="shot-source" href="https://t.me/graymansiongamedevru"><span data-en="Telegram channel">В Telegram-канал</span> ↗</a></article>
+      <article class="slide"><a class="shot" href="media/devlog-48.mp4" data-video="true" data-caption="Half a Tip of E" data-caption-en="Half a Tip of E"><video muted loop playsinline preload="none" poster="media/devlog-48.jpg" data-src="media/devlog-48.mp4"></video><span data-en="Half a Tip of E ▶">Half a Tip of E ▶</span></a><a class="shot-source" href="https://myindie.net/games/game/half-a-tip-of-e"><span data-en="Game page">К игре</span> ↗</a></article>
+      <article class="slide"><a class="shot" href="media/tessera.mp4" data-video="true" data-caption="TESSERA" data-caption-en="TESSERA"><video muted loop playsinline preload="none" poster="media/tessera.jpg" data-src="media/tessera.mp4"></video><span data-en="TESSERA ▶">TESSERA ▶</span></a><a class="shot-source" href="https://graymansion.itch.io/tessera"><span data-en="Game page">К игре</span> ↗</a></article>
       <article class="slide"><a class="shot" href="https://img.itch.zone/aW1hZ2UvNDcxNTMwNC8yODEwMTA5NS5wbmc=/original/%2Bkm8dN.png" data-caption="TESSERA · 1"><img src="https://img.itch.zone/aW1hZ2UvNDcxNTMwNC8yODEwMTA5NS5wbmc=/original/%2Bkm8dN.png" alt="" loading="lazy"><span>TESSERA · 1</span></a><a class="shot-source" href="https://graymansion.itch.io/tessera"><span data-en="Game page">К игре</span> ↗</a></article>
       <article class="slide"><a class="shot" href="https://img.itch.zone/aW1hZ2UvNDcxNTMwNC8yODEwMTA5Mi5wbmc=/original/wIPC5g.png" data-caption="TESSERA · 2"><img src="https://img.itch.zone/aW1hZ2UvNDcxNTMwNC8yODEwMTA5Mi5wbmc=/original/wIPC5g.png" alt="" loading="lazy"><span>TESSERA · 2</span></a><a class="shot-source" href="https://graymansion.itch.io/tessera"><span data-en="Game page">К игре</span> ↗</a></article>
       <article class="slide"><a class="shot" href="https://img.itch.zone/aW1hZ2UvNDcxNTMwNC8yODEwMTA5NC5wbmc=/original/DwtzR0.png" data-caption="TESSERA · 3"><img src="https://img.itch.zone/aW1hZ2UvNDcxNTMwNC8yODEwMTA5NC5wbmc=/original/DwtzR0.png" alt="" loading="lazy"><span>TESSERA · 3</span></a><a class="shot-source" href="https://graymansion.itch.io/tessera"><span data-en="Game page">К игре</span> ↗</a></article>
@@ -443,6 +476,7 @@
 <dialog id="lightbox" aria-labelledby="shot-caption">
   <button type="button" class="close-shot" aria-label="Закрыть" data-en-label="Close">×</button>
   <img id="shot-image" alt="">
+  <video id="shot-video" controls playsinline preload="metadata" hidden></video>
   <div class="shot-controls">
     <button type="button" id="shot-prev" aria-label="Предыдущий скриншот" data-en-label="Previous screenshot">←</button>
     <span id="shot-caption"></span>
@@ -578,6 +612,8 @@ for (let index = slides.length - 1; index > 0; index -= 1) {
   const other = Math.floor(Math.random() * (index + 1));
   [slides[index], slides[other]] = [slides[other], slides[index]];
 }
+const firstVideo = slides.findIndex((slide) => slide.querySelector('video'));
+[slides[0], slides[firstVideo]] = [slides[firstVideo], slides[0]];
 gallery.replaceChildren(...slides);
 
 function copySlide(slide) {
@@ -653,6 +689,29 @@ gallery.addEventListener('scroll', renderGalleryPosition, {passive: true});
 gallery.addEventListener('wheel', () => { lastMove = Date.now(); }, {passive: true});
 window.addEventListener('resize', renderGalleryPosition);
 gallery.scrollLeft = galleryMetrics().start;
+const galleryVideos = [...gallery.querySelectorAll('video[data-src]')];
+const videoVisibility = new IntersectionObserver((entries) => {
+  for (const {target, isIntersecting} of entries) {
+    target.dataset.visible = String(isIntersecting);
+  }
+  syncGalleryVideos();
+}, {threshold: 0.55});
+function syncGalleryVideos() {
+  const paused = document.hidden || reducedMotion.matches || byId('lightbox').open;
+  for (const video of galleryVideos) {
+    if (!paused && video.dataset.visible === 'true') {
+      if (!video.hasAttribute('src')) {
+        video.src = video.dataset.src;
+      }
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }
+}
+galleryVideos.forEach((video) => videoVisibility.observe(video));
+document.addEventListener('visibilitychange', syncGalleryVideos);
+reducedMotion.addEventListener('change', syncGalleryVideos);
 updateAutoplayLabel();
 gallery.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
@@ -708,8 +767,19 @@ function showShot(index) {
   const shot = shots[currentShot];
   const image = byId('shot-image');
   const caption = english ? shot.dataset.captionEn || shot.dataset.caption : shot.dataset.caption;
-  image.src = shot.getAttribute('href') === '#' ? shot.querySelector('img').src : shot.href;
-  image.alt = caption;
+  const video = byId('shot-video');
+  const isVideo = shot.dataset.video === 'true';
+  video.pause();
+  video.hidden = !isVideo;
+  image.hidden = isVideo;
+  if (isVideo) {
+    video.src = shot.href;
+  } else {
+    video.removeAttribute('src');
+    video.load();
+    image.src = shot.getAttribute('href') === '#' ? shot.querySelector('img').src : shot.href;
+    image.alt = caption;
+  }
   byId('shot-caption').textContent = caption;
 }
 gallery.querySelectorAll('.shot').forEach((shot) => shot.addEventListener('click', (event) => {
@@ -725,13 +795,18 @@ gallery.querySelectorAll('.shot').forEach((shot) => shot.addEventListener('click
   returnFocus = shot;
   showShot(index);
   lightbox.showModal();
+  syncGalleryVideos();
 }));
 byId('shot-prev').addEventListener('click', () => showShot(currentShot - 1));
 byId('shot-next').addEventListener('click', () => showShot(currentShot + 1));
 lightbox.querySelector('.close-shot').addEventListener('click', () => lightbox.close());
-lightbox.addEventListener('close', () => returnFocus?.focus());
+lightbox.addEventListener('close', () => {
+  byId('shot-video').pause();
+  syncGalleryVideos();
+  returnFocus?.focus();
+});
 lightbox.addEventListener('keydown', (event) => {
-  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+  if (event.target.id !== 'shot-video' && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
     event.preventDefault();
     showShot(currentShot + (event.key === 'ArrowLeft' ? -1 : 1));
   }
